@@ -27,6 +27,20 @@ int main(int argc, char *argv[])
   }else if(strcmp(argv[1], "decode") == 0) {
     printf("%s\n", "Decoding...");
 
+    uint8_t *todecbuf = (uint8_t*)calloc(4, sizeof(uint8_t));
+    todecbuf[0] = 255;
+    todecbuf[1] = 0;
+    todecbuf[2] = 197;
+    todecbuf[3] = 0;
+    uint8_t *decbuf = (uint8_t*)calloc(1, sizeof(uint8_t));
+    size_t decsize = decode(todecbuf, 4, decbuf);
+    for(size_t i = 0; i < decsize; ++i){
+      printf("%d\t", *(decbuf + i));
+    }
+    printf("\n %d\n", decsize);
+    free(todecbuf);
+    free(decbuf);
+
     printf("%s\n", "Finish.");
   }else{
     printf("%s\n", "Invalid parameter");
