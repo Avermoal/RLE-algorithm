@@ -6,10 +6,14 @@
 
 #include "decoder.h"
 #include "encoder.h"
+#include "tests.h"
 
 
 int main(int argc, char *argv[])
 {
+  //do_all_tests();
+
+
   if(strcmp(argv[1], "encode") == 0){
     printf("%s\n", "Encoding...");
 
@@ -27,18 +31,14 @@ int main(int argc, char *argv[])
   }else if(strcmp(argv[1], "decode") == 0) {
     printf("%s\n", "Decoding...");
 
-    uint8_t *todecbuf = (uint8_t*)calloc(4, sizeof(uint8_t));
-    todecbuf[0] = 255;
-    todecbuf[1] = 0;
-    todecbuf[2] = 197;
-    todecbuf[3] = 0;
+    uint8_t todecbuf[] = {
+      132, 0, 0, 4, 0, 2, 0, 0, 133, 4, 130, 80, 0, 0, 130, 2, 131, 255, 128, 0};
     uint8_t *decbuf = (uint8_t*)calloc(1, sizeof(uint8_t));
-    size_t decsize = decode(todecbuf, 4, decbuf);
+    size_t decsize = decode(todecbuf, 20, decbuf);
     for(size_t i = 0; i < decsize; ++i){
       printf("%d\t", *(decbuf + i));
     }
     printf("\n %d\n", decsize);
-    free(todecbuf);
     free(decbuf);
 
     printf("%s\n", "Finish.");

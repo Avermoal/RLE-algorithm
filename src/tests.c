@@ -11,7 +11,8 @@
 
 void do_all_tests(void)
 {
-  
+  assert((encode_tests() == TEST_PASSED)&&"ERROR:");
+  assert((decode_tests() == TEST_PASSED)&&"ERROR:");
 }
 
 test_result_t encode_tests(void)
@@ -29,7 +30,7 @@ test_result_t encode_tests(void)
 
   uint8_t control1[] = {255, 0, 197, 0};
   if(encsize1 != 4){
-    printf("TEST_FAILED: encode1 size not equal to 4\n");
+    printf("TEST_FAILED: encode1 size not equal to 4 but %d\n", encsize1);
     free(toencbuf1);
     free(encbuf1);
     free(encbuf2);
@@ -48,8 +49,16 @@ test_result_t encode_tests(void)
   uint8_t control2[] = {
     0x84, 0x00, 0x02, 0x04, 0x02, 0x00, 0x85, 0x04, 0x82, 0x80, 0x00, 0x00, 0x82, 0x02, 0x83, 0xFF, 0x80, 0x00
   };
+  for(size_t i = 0; i < encsize2; ++i){
+    printf("%d\t", encbuf2[i]);
+  }
+  printf("\n");
+  for(size_t i = 0; i < 18; ++i){
+    printf("%d\t", control2[i]);
+  }
+  printf("\n");
   if(encsize2 != 18){
-    printf("TEST_FAILED: encode2 size not equal 18\n");
+    printf("TEST_FAILED: encode2 size not equal 18 but %d\n", encsize2);
     free(toencbuf1);
     free(encbuf1);
     free(encbuf2);
