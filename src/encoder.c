@@ -24,14 +24,14 @@ size_t encode(uint8_t *toencbuf, size_t size, uint8_t *encbuf)
         *(encbuf + encsize + 1) = simbol;
         encsize += 2;
       }else{
-        uint8_t code = (0b00000000 + (same_part_size - 0b00000010)) + 0b10000000;
+        uint8_t code = 0b00000000 + same_part_size - 0b00000010 + 0b10000000;
         *(encbuf + encsize) = code;
         *(encbuf + encsize + 1) = simbol;
         encsize += 2;
       }
       i += same_part_size;
     }else{
-      uint8_t code = (0b00000000 + (unsame_part_size - 0b00000001));
+      uint8_t code = 0b00000000 + unsame_part_size - 0b00000001;
       *(encbuf + encsize) = code;
       ++encsize;
       for(uint8_t i = 0; i < unsame_part_size; ++i, ++encsize){
