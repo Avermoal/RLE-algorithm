@@ -11,7 +11,7 @@
 
 int main(int argc, char *argv[])
 {
-  //do_all_tests();
+  do_all_tests();
 
 
   if(strcmp(argv[1], "encode") == 0){
@@ -26,6 +26,15 @@ int main(int argc, char *argv[])
     printf("\n %d\n", encsize);
     free(toencbuf);
     free(encbuf);
+
+    uint8_t toencbuf1[] = {1, 1, 1, 1, 4, 2, 2, 2, 3, 3, 4};
+    uint8_t *encbuf1 = (uint8_t*)calloc(11, sizeof(uint8_t));
+    size_t encsize1 = encode(toencbuf1, 11, encbuf1);
+    for(size_t i = 0; i < encsize1; ++i){
+      printf("%d\t", *(encbuf1 + i));
+    }
+    printf("\n %d\n", encsize1);
+    free(encbuf1);
 
     printf("%s\n", "Finish.");
   }else if(strcmp(argv[1], "decode") == 0) {

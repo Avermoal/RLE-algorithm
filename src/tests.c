@@ -67,10 +67,10 @@ test_result_t encode_tests(void)
   for(size_t i = 0; i < encsize2; i++){
     if(encbuf2[i] != control2[i]){
       printf("TEST_FAILED: not same");
-      return TEST_FAILED;
       free(toencbuf1);
       free(encbuf1);
       free(encbuf2);
+      return TEST_FAILED;
     }
   }
   free(toencbuf1);

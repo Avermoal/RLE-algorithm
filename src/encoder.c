@@ -14,7 +14,7 @@ size_t encode(uint8_t *toencbuf, size_t size, uint8_t *encbuf)
     uint8_t *unsamesimbols = (uint8_t*)calloc(129, sizeof(uint8_t));
     uint8_t simbol = *(toencbuf + i);
     for(size_t j = i; j < size && simbol == *(toencbuf + j) && same_part_size != 129; ++j, ++same_part_size);
-    for(size_t j = i; j < size && simbol != *(toencbuf + j) && unsame_part_size != 129; ++j, ++unsame_part_size){
+    for(size_t j = i; j < size && (simbol != *(toencbuf + j) || j == i) && unsame_part_size != 129; ++j, ++unsame_part_size){
       *(unsamesimbols + (j - i)) = *(toencbuf + j);
     }
 
