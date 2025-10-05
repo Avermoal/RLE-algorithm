@@ -2,10 +2,8 @@
 
 #include <stdlib.h>
 
-/*
- * Узкое место метода в том, что при большом наборе данных без повторов он имеет шанс увеличить размер кодируемых данных.
- * (думаю как исправить)
- */
+
+
 size_t encode(uint8_t *toencbuf, size_t size, uint8_t *encbuf)
 {
   size_t encsize = 0; /*Размер в байтах*/
@@ -13,15 +11,19 @@ size_t encode(uint8_t *toencbuf, size_t size, uint8_t *encbuf)
     size_t same_part_size = 0, unsame_part_size = 0; /*Размер кодируемой области (не больше 129)*/
     uint8_t *unsamesimbols = (uint8_t*)calloc(129, sizeof(uint8_t));
     uint8_t simbol = *(toencbuf + i);
-    for(size_t j = i; j < size && simbol == *(toencbuf + j) && same_part_size != 129; ++j, ++same_part_size);
-    for(size_t j = i; j < size && simbol != *(toencbuf + j) || i == j && unsame_part_size != 129; ++j, ++unsame_part_size){
+    for(size_t j = i; j < size && simbol == *(toencbuf + j) && same_part_size < 129; ++j, ++same_part_size);
+    
+    uint8_t simbol_iter_prev = simbol;
+    int is_repeated = 0;
+    for(size_t j = i; j < size && unsame_part_size < 129 && !is_repeated; ++j, ++unsame_part_size){
       *(unsamesimbols + (j - i)) = *(toencbuf + j);
-      if(){
-
+      if(simbol_iter_prev == *(toencbuf + j) && j != i){
+        is_repeated = 1;
       }
+      simbol_iter_prev = *(toencbuf + j);
     }
 
-    if(same_part_size >= unsame_part_size){
+    if(same_part_size >= unsame_part_size && is_repeated){
       if(same_part_size == 1){
         *(encbuf + encsize) = 0b00000000;
         *(encbuf + encsize + 1) = simbol;
