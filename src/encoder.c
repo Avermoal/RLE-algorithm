@@ -16,10 +16,12 @@ size_t encode(uint8_t *toencbuf, size_t size, uint8_t *encbuf)
     uint8_t simbol_iter_prev = simbol;
     int is_repeated = 0;
     for(size_t j = i; j < size && unsame_part_size < 129 && !is_repeated; ++j, ++unsame_part_size){
-      *(unsamesimbols + (j - i)) = *(toencbuf + j);
       if(simbol_iter_prev == *(toencbuf + j) && j != i){
         is_repeated = 1;
+        unsame_part_size -= 2;
+        continue;
       }
+      *(unsamesimbols + (j - i)) = *(toencbuf + j);
       simbol_iter_prev = *(toencbuf + j);
     }
 
