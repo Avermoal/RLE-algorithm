@@ -11,8 +11,10 @@
 
 void do_all_tests(void)
 {
-  assert((encode_tests() == TEST_PASSED)&&"ERROR:");
-  assert((decode_tests() == TEST_PASSED)&&"ERROR:");
+  assert((encode_tests() == TEST_PASSED)&&"ERROR\n");
+  printf("ENCODE TESTS PASSED\n");
+  assert((decode_tests() == TEST_PASSED)&&"ERROR\n");
+  printf("DECODE TESTS PASSED\n");
 }
 
 test_result_t encode_tests(void)
@@ -30,7 +32,7 @@ test_result_t encode_tests(void)
 
   uint8_t control1[] = {255, 0, 197, 0};
   if(encsize1 != 4){
-    printf("TEST_FAILED: encode1 size not equal to 4 but %d\n", encsize1);
+    printf("TEST_FAILED: encode 1 size not equal to 4 but %d\n", encsize1);
     free(toencbuf1);
     free(encbuf1);
     free(encbuf2);
@@ -38,7 +40,7 @@ test_result_t encode_tests(void)
   }
   for(size_t i = 0; i < encsize1; ++i){
     if(encbuf1[i] != control1[i] ){
-      printf("TEST_FAILED: not same");
+      printf("TEST_FAILED: not same\n");
       free(toencbuf1);
       free(encbuf1);
       free(encbuf2);
@@ -59,7 +61,7 @@ test_result_t encode_tests(void)
   }
   printf("\n");
   if(encsize2 != 18){
-    printf("TEST_FAILED: encode2 size not equal 18 but %d\n", encsize2);
+    printf("TEST_FAILED: encode 2 size not equal 18 but %d\n", encsize2);
     free(toencbuf1);
     free(encbuf1);
     free(encbuf2);
@@ -67,7 +69,7 @@ test_result_t encode_tests(void)
   }
   for(size_t i = 0; i < encsize2; i++){
     if(encbuf2[i] != control2[i]){
-      printf("TEST_FAILED: not same");
+      printf("TEST_FAILED: not same\n");
       free(toencbuf1);
       free(encbuf1);
       free(encbuf2);
@@ -82,5 +84,39 @@ test_result_t encode_tests(void)
 
 test_result_t decode_tests(void)
 {
+  size_t size1 = 4, size2 = 18;
+  uint8_t todecbuf1[] = {255, 0, 197, 0};
+  uint8_t *decbuf1 = (uint8_t*)calloc(1, sizeof(uint8_t));
+  uint8_t todecbuf2[] = {132, 0, 2, 4, 2, 0, 133, 4, 130, 80, 0, 0, 130, 2, 131, 255, 128, 0};
+  uint8_t *decbuf2 = (uint8_t*)calloc(1, sizeof(uint8_t));
+  size_t decsize1 = decode(todecbuf1, size1, &decbuf1);
+  size_t decsize2 = decode(todecbuf2, size2, &decbuf2);
+
+  uint8_t control1[200];
+  for(int i = 0; i < 200; ++i){
+    control1[i] = 0;
+  }
+  if(decsize1 != 200){
+    printf("TEST_FAILED: decode 1 size not equal 200 but %d\n", decsize1);
+    free(decbuf1);
+    free(decbuf2);
+    return TEST_FAILED;
+  }
+  for(size_t i = 0; i < decsize1; ++i){
+    printf("%d \t", decbuf1[i]);
+  }
+  printf("\n");
+  for(size_t i = 0; i < decsize1; ++i){
+    if(decbuf1[i] != control1[i]){
+      printf("TEST_FAILED: not same\n");
+      free(decbuf1);
+      free(decbuf2);
+      return TEST_FAILED;
+    }
+  }
+  
+
+  free(decbuf1);
+  free(decbuf2);
   return TEST_PASSED;
 }
