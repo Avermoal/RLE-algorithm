@@ -27,8 +27,8 @@ test_result_t encode_tests(void)
 	  80,  80,  80,  80,  0,   2,   2,   2,   2,   255, 255, 255, 255, 255, 0,   0
   };
   uint8_t *encbuf2 = (uint8_t*)calloc(size2, sizeof(uint8_t));
-  size_t encsize1 = encode(toencbuf1, size1, encbuf1);
-  size_t encsize2 = encode(toencbuf2, size2, encbuf2);
+  size_t encsize1 = encode(toencbuf1, size1, &encbuf1);
+  size_t encsize2 = encode(toencbuf2, size2, &encbuf2);
 
   uint8_t control1[] = {255, 0, 197, 0};
   if(encsize1 != 4){
