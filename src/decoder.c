@@ -32,7 +32,7 @@ size_t decode(uint8_t *todecbuf, size_t size, uint8_t **decbuf)
         *(*(decbuf) + j + deciter) = *(todecbuf + i + 1 + j);
       }
       deciter += *(todecbuf + i) + 1;
-      i += *(todecbuf + i);
+      i += *(todecbuf + i) + 1;
     }
   }
 

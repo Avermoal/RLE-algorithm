@@ -5,10 +5,15 @@
 #include <stddef.h>
 #include <stdint.h>
 
-/*Функции: получения буфера и выгрузки, подсчёта размера*/
+#define MAX_FILE_NAME_LENGTH 100
 
-/*Возвращает размер буфера*/
-size_t getbuf(const char *filename, uint8_t *buf);
+void decodefile(const char *filename);
+
+void encodefile(const char *filename);
+
+/*Функции: получения буфера и выгрузки*/
+/*Возвращает размер буфера. Размер buf должен быть минимальным*/
+size_t getbuf(const char *filename, uint8_t **buf);
 
 void offloadbuf(const char *filename, uint8_t *buf, size_t size);
 
