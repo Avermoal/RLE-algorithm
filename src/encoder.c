@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-
+#include <stdio.h>
 
 size_t encode(uint8_t *toencbuf, size_t size, uint8_t **encbuf)
 {
